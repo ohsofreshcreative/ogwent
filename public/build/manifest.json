@@ -1,0 +1,96 @@
+{
+  "_pagination-BM43p5Nx.css": {
+    "file": "assets/pagination-BM43p5Nx.css",
+    "src": "_pagination-BM43p5Nx.css"
+  },
+  "_pagination-DNLWKolj.js": {
+    "file": "assets/pagination-DNLWKolj.js",
+    "name": "pagination",
+    "css": [
+      "assets/pagination-BM43p5Nx.css"
+    ]
+  },
+  "editor.deps.json": {
+    "file": "assets/editor.deps-DxpY22xl.json",
+    "src": "editor.deps.json"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DmcNiLq-.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "assets": [
+      "assets/phone-DrjoctTo.svg",
+      "assets/mail-CPWRSG8E.svg",
+      "assets/pointer-C3ifhTTD.svg"
+    ]
+  },
+  "resources/css/editor.css": {
+    "file": "assets/editor-C9-z78jL.css",
+    "name": "editor",
+    "names": [
+      "editor.css"
+    ],
+    "src": "resources/css/editor.css",
+    "isEntry": true
+  },
+  "resources/images/mail.svg": {
+    "file": "assets/mail-CPWRSG8E.svg",
+    "src": "resources/images/mail.svg"
+  },
+  "resources/images/phone.svg": {
+    "file": "assets/phone-DrjoctTo.svg",
+    "src": "resources/images/phone.svg"
+  },
+  "resources/images/pointer.svg": {
+    "file": "assets/pointer-C3ifhTTD.svg",
+    "src": "resources/images/pointer.svg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CNIS25wh.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/blocks/reviews.js",
+      "resources/js/blocks/tabs.js",
+      "resources/js/blocks/slider.js"
+    ]
+  },
+  "resources/js/blocks/reviews.js": {
+    "file": "assets/reviews-CfOU2URH.js",
+    "name": "reviews",
+    "src": "resources/js/blocks/reviews.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_pagination-DNLWKolj.js"
+    ],
+    "css": [
+      "assets/reviews-_Ms0R5o1.css"
+    ]
+  },
+  "resources/js/blocks/slider.js": {
+    "file": "assets/slider-BHZVj-kH.js",
+    "name": "slider",
+    "src": "resources/js/blocks/slider.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_pagination-DNLWKolj.js"
+    ]
+  },
+  "resources/js/blocks/tabs.js": {
+    "file": "assets/tabs-B5s4zv4X.js",
+    "name": "tabs",
+    "src": "resources/js/blocks/tabs.js",
+    "isDynamicEntry": true
+  },
+  "resources/js/editor.js": {
+    "file": "assets/editor-DRWDEw-3.js",
+    "name": "editor",
+    "src": "resources/js/editor.js",
+    "isEntry": true
+  }
+}
