@@ -56,7 +56,7 @@
 
     <div class="__wrapper c-main grid grid-cols-1 md:grid-cols-2 items-center gap-10">
 
-        <div class="__content relative flex flex-col justify-center z-30 pt-60 pb-40">
+        <div class="__content relative flex flex-col justify-center z-30 py-30">
             <h1 data-gsap-element="header" class="m-header text-white [&_strong]:!text-secondary-50">
                 {!! strip_tags($g_hero['header'], '<strong><em><a><br>') !!}
             </h1>
