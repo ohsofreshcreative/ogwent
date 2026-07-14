@@ -153,14 +153,14 @@ array_map(function ($file) {
 /*--- WOOCOMMERCE SIDEBAR ---*/
 
 add_action('widgets_init', function () {
-	register_sidebar([
-		'name'          => __('Sklep - Filtry', 'sage'),
-		'id'            => 'sidebar-shop',
-		'before_widget' => '<section class="widget %1$s %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<p class="font-header text-h5 widget-title font-bold mb-4">',
-		'after_title'   => '</p>',
-	]);
+register_sidebar([
+    'name'          => 'Shop Sidebar',
+    'id'            => 'shop-sidebar',
+    'before_widget' => '<div class="widget %2$s mb-6">',
+    'after_widget'  => '</div>',
+    'before_title'  => '<h4 class="widget-title text-sm font-semibold uppercase mb-3">',
+    'after_title'   => '</h4>',
+]);
 });
 
 /**
@@ -170,9 +170,9 @@ add_action('widgets_init', function () {
  */
 add_action('widgets_init', function () {
 	$defaultConfig = [
-		'before_widget' => '<section class="footer_widget widget %1$s %2$s">',
+		'before_widget' => '<section class="footer_widget widget text-white %1$s %2$s">',
 		'after_widget' => '</section>',
-		'before_title' => '<p class="font-header text-h5 widget-title primary mb-4 flex">',
+		'before_title' => '<p class="font-header text-h6 widget-title text-secondary flex sm:block !mb-2 sm:!mb-6">',
 		'after_title' => '</p>',
 	];
 
@@ -199,6 +199,11 @@ add_action('widgets_init', function () {
 	register_sidebar([
 		'name' => __('Footer 4', 'sage'),
 		'id'   => 'sidebar-footer-4',
+	] + $defaultConfig);
+
+	register_sidebar([
+		'name' => __('Footer 5', 'sage'),
+		'id'   => 'sidebar-footer-5',
 	] + $defaultConfig);
 });
 
@@ -453,14 +458,14 @@ add_action('template_redirect', function () {
 
 
 add_filter('the_posts_pagination_args', function ($args) {
-    $args['prev_text'] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>';
-    $args['next_text'] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
-    $args['screen_reader_text'] = __('Nawigacja po wpisach', 'sage');
-    return $args;
+	$args['prev_text'] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>';
+	$args['next_text'] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+	$args['screen_reader_text'] = __('Nawigacja po wpisach', 'sage');
+	return $args;
 });
 
 add_filter('navigation_markup_template', function ($template, $class) {
-    return '
+	return '
     <nav class="navigation %1$s mt-10 mb-10" aria-label="%4$s">
         <h2 class="screen-reader-text">%2$s</h2>
         <div class="nav-links flex items-center justify-center gap-4">%3$s</div>
@@ -468,10 +473,70 @@ add_filter('navigation_markup_template', function ($template, $class) {
 }, 10, 2);
 
 add_filter('paginate_links_output', function ($output) {
-    $output = str_replace('page-numbers', 'page-numbers inline-flex items-center justify-center w-10 h-10 rounded-full', $output);
-    $output = str_replace('current', 'current bg-primary text-white', $output);
-    $output = str_replace('prev', 'prev', $output);
-    $output = str_replace('next', 'next', $output);
-    return $output;
+	$output = str_replace('page-numbers', 'page-numbers inline-flex items-center justify-center w-10 h-10 rounded-full', $output);
+	$output = str_replace('current', 'current bg-primary text-white', $output);
+	$output = str_replace('prev', 'prev', $output);
+	$output = str_replace('next', 'next', $output);
+	return $output;
 });
 
+add_action('wp_enqueue_scripts', function () {
+	wp_dequeue_style('wp-block-library');
+	wp_dequeue_style('wp-block-library-theme');
+	wp_dequeue_style('global-styles');
+}, 100);
+
+
+/*--- PDF THUMBNAIL ---*/
+
+/**
+ * Generates a thumbnail from the first page of a PDF file and returns its URL.
+ *
+ * @param int $pdf_attachment_id The attachment ID of the PDF file.
+ * @return string The URL to the generated thumbnail or the original PDF URL on failure.
+ */
+function get_pdf_thumbnail_url($pdf_attachment_id)
+{
+	// Check if Imagick extension is available
+	if (!extension_loaded('imagick')) {
+		error_log('Imagick extension is not loaded. PDF thumbnail generation is disabled.');
+		return wp_get_attachment_url($pdf_attachment_id);
+	}
+
+	$pdf_path = get_attached_file($pdf_attachment_id);
+	if (!$pdf_path || !file_exists($pdf_path)) {
+		return wp_get_attachment_url($pdf_attachment_id);
+	}
+
+	$upload_dir = wp_upload_dir();
+	$thumbnail_filename = pathinfo($pdf_path, PATHINFO_FILENAME) . '-pdf-thumb.jpg';
+	$thumbnail_path = "{$upload_dir['path']}/{$thumbnail_filename}";
+	$thumbnail_url = "{$upload_dir['url']}/{$thumbnail_filename}";
+
+	// If thumbnail already exists, return its URL
+	if (file_exists($thumbnail_path)) {
+		return $thumbnail_url;
+	}
+
+	try {
+		$imagick = new \Imagick();
+		$imagick->setResolution(150, 150);
+		$imagick->readImage("{$pdf_path}[0]");
+		// Konwertuj CMYK → sRGB jeśli potrzeba
+		if ($imagick->getImageColorspace() === \Imagick::COLORSPACE_CMYK) {
+			$imagick->transformImageColorspace(\Imagick::COLORSPACE_SRGB);
+		}
+		$imagick->setImageFormat('jpeg');
+		$imagick->setImageBackgroundColor('white');
+		$imagick->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
+		$imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+		$imagick->writeImage($thumbnail_path);
+		$imagick->clear();
+		$imagick->destroy();
+
+		return $thumbnail_url;
+	} catch (\Exception $e) {
+		error_log('PDF to Image conversion failed: ' . $e->getMessage());
+		return wp_get_attachment_url($pdf_attachment_id);
+	}
+}

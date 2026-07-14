@@ -17,7 +17,7 @@ class Logos extends Block
 	public $mode = 'edit';
 	public $supports = [
 		'align' => false,
-		'mode' => false,
+		'mode' => true,
 		'jsx' => true,
 		'anchor' => true,
 		'customClassName' => true,
@@ -41,7 +41,8 @@ class Logos extends Block
 			/*--- GROUP ---*/
 			->addTab('Elementy', ['placement' => 'top'])
 			->addGroup('g_logos', ['label' => ''])
-			->addText('header', ['label' => 'Tytuł'])
+            ->addText('title', ['label' => 'Tytuł'])
+			->addText('header', ['label' => 'Nagłówek'])
 			->addGallery('gallery', [
 				'label' => 'Logotypy',
 				'preview_size' => 'thumbnail',

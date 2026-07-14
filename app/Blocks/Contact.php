@@ -18,7 +18,7 @@ class Contact extends Block
 	public $mode = 'edit';
 	public $supports = [
 		'align' => false,
-		'mode' => false,
+		'mode' => true,
 		'jsx' => true,
 		'anchor' => true,
 		'customClassName' => true,
@@ -43,6 +43,11 @@ class Contact extends Block
 			/*--- TAB #1 ---*/
 			->addTab('Dane', ['placement' => 'top'])
 			->addGroup('g_contact_1', ['label' => ''])
+			->addImage('image', [
+				'label' => 'Tło',
+				'return_format' => 'array',
+				'preview_size' => 'thumbnail',
+			])
 			->addText('header', ['label' => 'Tytuł'])
 			->addText('phone', [
 				'label' => 'Numer telefonu',
@@ -50,10 +55,17 @@ class Contact extends Block
 			->addText('mail', [
 				'label' => 'Adres e-mail',
 			])
-			->addTextarea('address', [
-				'label' => 'Adres',
-				'rows' => 3,
-				'new_lines' => 'br',
+			->addWysiwyg('data', [
+				'label' => 'Dane firmy',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => false,
+			])
+			->addWysiwyg('hours', [
+				'label' => 'Godziny pracy',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => false,
 			])
 			->endGroup()
 			/*--- TAB #2 ---*/

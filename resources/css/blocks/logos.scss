@@ -1,3 +1,28 @@
+@keyframes logos-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
 .b-logos {
-	
+    .logos-marquee-wrapper {
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    }
+
+    .logos-track {
+        width: max-content;
+        animation: logos-marquee 20s linear infinite;
+
+        &:hover {
+            animation-play-state: paused;
+        }
+    }
+
+    .logos-item {
+        min-width: 160px;
+    }
 }

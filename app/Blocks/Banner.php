@@ -8,62 +8,70 @@ use App\Support\SectionClasses;
 
 class Banner extends Block
 {
-	public $name = 'Hero - Z tłem';
-	public $description = 'banner - wersja hero z tłem';
-	public $slug = 'banner';
-	public $category = 'formatting';
-	public $icon = 'align-full-width';
-	public $keywords = ['tresc', 'zdjecie'];
-	public $mode = 'edit';
-	public $supports = [
-		'align' => false,
-		'mode' => false,
-		'jsx' => true,
-	];
+    public $name = 'Banner - Slider';
+    public $description = 'banner';
+    public $slug = 'banner';
+    public $category = 'formatting';
+    public $icon = 'image-flip-horizontal';
+    public $keywords = ['banner', 'kafelki'];
+    public $mode = 'edit';
+    public $supports = [
+        'align' => false,
+        'mode' => true,
+        'jsx' => true,
+    ];
 
-	public function fields()
-	{
-		$banner = new FieldsBuilder('banner');
+    public function fields()
+    {
+        $banner = new FieldsBuilder('banner');
 
-		$banner
-			->setLocation('block', '==', 'acf/banner') // ważne!
-			->addText('block-title', [
-				'label' => 'Tytuł',
-				'required' => 0,
-			])
-			->addAccordion('accordion1', [
-				'label' => 'Hero - Z tłem',
-				'open' => false,
-				'multi_expand' => true,
-			])
-			/*--- TAB #1 ---*/
-			->addTab('Treść', ['placement' => 'top'])
-			->addGroup('g_banner', ['label' => 'banner'])
-			->addImage('image', [
-				'label' => 'Obraz',
+        $banner
+            ->setLocation('block', '==', 'acf/banner') // ważne!
+            ->addText('block-title', [
+                'label' => 'Tytuł',
+                'required' => 0,
+            ])
+            ->addAccordion('accordion1', [
+                'label' => 'Banner - Slider',
+                'open' => false,
+                'multi_expand' => true,
+            ])
+            /*--- FIELDS ---*/
+            ->addTab('Treści', ['placement' => 'top'])
+            ->addGroup('g_banner', ['label' => ''])
+
+            ->addText('title', ['label' => 'Tytuł'])
+
+            ->addRepeater('r_banner', [
+                'label' => 'banner',
+                'layout' => 'table', // 'row', 'block', albo 'table'
+                'min' => 1,
+                'max' => 10,
+                'button_label' => 'Dodaj kafelek'
+            ])
+            ->addImage('bg', [
+                'label' => 'Zdjęcie - tło',
+                'return_format' => 'array', // lub 'url', lub 'id'
+                'preview_size' => 'thumbnail',
+            ])
+            ->addImage('image', [
+                'label' => 'Zdjęcie',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+            ])
+            ->addText('title', [
+                'label' => 'Tytuł',
+            ])
+            ->addText('header', [
+                'label' => 'Nagłówek',
+            ])
+			->addLink('button', [
+				'label' => 'Przycisk',
 				'return_format' => 'array',
-				'preview_size' => 'thumbnail',
 			])
-			->addTextarea('header', [
-				'label' => 'Nagłówek',
-				'rows' => 2,
-				'new_lines' => 'br',
-			])
-			->addWysiwyg('text', [
-				'label' => 'Treść',
-				'tabs' => 'all',
-				'toolbar' => 'full',
-				'media_upload' => true,
-			])
-			->addLink('button1', [
-				'label' => 'Przycisk #1',
-				'return_format' => 'array',
-			])
-			->addLink('button2', [
-				'label' => 'Przycisk #2',
-				'return_format' => 'array',
-			])
-			->endGroup()
+            ->endRepeater()
+
+            ->endGroup()
 
 			/*--- USTAWIENIA BLOKU ---*/
 
@@ -120,13 +128,14 @@ class Banner extends Block
 				'allow_null' => 0,
 			]);
 
-		return $banner;
-	}
+        return $banner;
+    }
 
-	public function with(): array
+  public function with(): array
 	{
 		$fields = [
-			'g_banner' => get_field('g_banner'),
+            'g_banner' => get_field('g_banner'),
+            'banner' => get_field('g_banner')['r_banner'] ?? [],
 
 			'section_id' => get_field('section_id'),
 			'section_class' => get_field('section_class'),
@@ -135,6 +144,7 @@ class Banner extends Block
 			'wide' => (bool) get_field('wide'),
 			'nomt' => (bool) get_field('nomt'),
 			'gap' => (bool) get_field('gap'),
+			'nolist' => (bool) get_field('nolist'),
 
 			'background' => get_field('background') ?: 'none',
 		];
@@ -144,6 +154,7 @@ class Banner extends Block
 			'wide' => 'wide',
 			'nomt' => '!mt-0',
 			'gap' => 'wider-gap',
+			'nolist' => 'no-list',
 		]);
 
 		return $fields;

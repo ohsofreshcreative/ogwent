@@ -10,18 +10,31 @@
 	])>
 
 	<div class="__wrapper c-main relative">
-		<h4 data-gsap-element="header" class="w-full md:w-1/2">{{ $g_logos['header'] }}</h4>
+		<div class="w-full md:w-1/2">
+			@if (!empty($g_logos['title']))
+			<p data-gsap-element="title" class="__title m-title">{{ $g_logos['title'] }}</p>
+			@endif
+			@if (!empty($g_logos['header']))
+			<h2 data-gsap-element="header" class="w-full">{{ $g_logos['header'] }}</h2>
+			@endif
+		</div>
+	</div>
 
-		@if (!empty($g_logos['gallery']))
-		<div class="mt-6 grid grid-cols-2 md:grid-cols-4 items-center gap-6">
-			
+	@if (!empty($g_logos['gallery']))
+	<div class="logos-marquee-wrapper mt-20 overflow-hidden">
+	<div class="logos-track flex flex-nowrap items-center gap-8">
 			@foreach ($g_logos['gallery'] as $image)
-			<div class="bg-white flex items-center justify-center p-4">
-			<img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="max-h-16 w-auto">
+			<div class="logos-item flex-shrink-0 bg-white flex items-center justify-center p-4">
+				<img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="max-h-16 w-auto">
+			</div>
+			@endforeach
+			@foreach ($g_logos['gallery'] as $image)
+			<div class="logos-item flex-shrink-0 bg-white flex items-center justify-center p-4">
+				<img src="{{ $image['url'] }}" alt="{{ $image['alt'] }}" class="max-h-16 w-auto">
 			</div>
 			@endforeach
 		</div>
-		@endif
 	</div>
+	@endif
 
 </section>

@@ -1,7 +1,7 @@
 <?php
 
 /*--- CPT - Produkty ---*/
-
+/* 
 add_action('init', function () {
 	register_post_type('product', [
 		'label'         => 'Produkty',
@@ -53,3 +53,4 @@ add_action('init', function () {
 		'rewrite'      => ['slug' => 'kategoria-produktu', 'with_front' => false],
 	]);
 });
+ */

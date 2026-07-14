@@ -1,0 +1,101 @@
+.b-carousel {
+    --tst: bottom 0.5s ease 0s;
+    --dark: #E6E6E6EE;
+    overflow: hidden;
+}
+
+.__carousel-outer {
+    padding-left: 24px;
+
+    @media (min-width: 1424px) {
+        padding-left: calc((100vw - 1376px + 32px) / 2);
+    }
+}
+
+.__promo-tile {
+    min-height: 380px;
+}
+
+.slider-carousel.swiper {
+    overflow: visible;
+    padding-bottom: 0 !important;
+}
+
+.slider-carousel .swiper-button-prev,
+.slider-carousel .swiper-button-next {
+    width: 48px;
+    height: 48px;
+    background: var(--color-secondary);
+    color: var(--color-primary);
+
+    &::after {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    &:hover {
+        background: var(--color-secondary-hover);
+    }
+}
+.carousel-standard.swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.carousel-standard .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.carousel-standard .swiper-pagination-bullet {
+    background: var(--color-secondary-600);
+    transition: all 0.5s ease 0s;
+    border-radius: 8px;
+}
+
+.carousel-standard .swiper-pagination-bullet-active {
+    background: var(--color-secondary);
+    width: 30px;
+}
+
+.carousel-standard .info {
+    position: absolute;
+    width: calc(100% + 2px);
+   /*  height: calc(50% + 2px); */
+    text-align: center;
+    background: linear-gradient(180deg, rgba(15, 32, 26, 0) 0, rgba(15, 32, 26, 0.8) 80px), linear-gradient(180deg, rgba(15, 32, 26, 0) , rgba(15, 32, 26, 1));
+    padding: 24px 24px 40px 24px;
+    padding-top: 0px;
+    left: 0;
+    bottom: calc(-100% - 3px);
+    box-sizing: border-box;
+    transition: var(--tst);
+    color: var(--dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.carousel-standard .swiper-slide:hover .info,
+.carousel-standard .swiper-slide:focus-within .info {
+    bottom: 0;
+    transition: var(--tst);
+}
+
+.carousel-standard .info .icon {
+    margin-bottom: 1rem;
+}
+
+.carousel-standard .info .icon img {
+    max-width: 50px;
+    height: auto;
+}
+
+.carousel-standard .info .header {
+    font-weight: bold;
+}

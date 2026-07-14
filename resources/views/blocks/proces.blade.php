@@ -27,15 +27,15 @@
 		$grid_class = 'lg:grid-cols-3';
 		}
 		@endphp
-		<div class="__repeater gap-8 grid grid-cols-1 md:grid-cols-2 {{ $grid_class }} mt-16">
+		<div class="__repeater gap-8 grid grid-cols-1 md:grid-cols-2 {{ $grid_class }} section-row">
 
 			@foreach ($r_proces as $item)
-			<div data-gsap-element="stagger" class="flex flex-col bg-primary radius p-6">
+			<div data-gsap-element="stagger" class="flex flex-col border border-secondary overflow-hidden p-6">
+				<div class="text-big text-primary-300/20 leading-none absolute -right-5 -bottom-6 pointer-events-none">{{ $item['number'] }}</div>
 				<div class="relative z-20">
-					<div class="text-h2">{{ $item['number'] }}</div>
 					<img class="" src="{{ $item['image']['url'] }}" alt="{{ $item['image']['alt'] ?? '' }}" />
 
-					<p class="text-h6 mt-4">{{ $item['title'] }}</p>
+					<p class="text-lg mt-4">{{ $item['title'] }}</p>
 					<p class="mt-2">{!! $item['txt'] !!}</p>
 				</div>
 			</div>

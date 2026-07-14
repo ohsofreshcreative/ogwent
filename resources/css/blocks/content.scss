@@ -22,16 +22,16 @@
 				position: relative;
 				margin-bottom: 0.5em;
 				display: flex;
-				gap: 8px;
+				gap: 16px;
 				align-items: center;
 
 				&::before {
-					content: url('@images/pointer.svg');
+					content: url('@images/check.svg');
 					position: relative;
 					left: 0;
-					top: -6px;
-					width: 14px;
-					height: 14px;
+					top: 3px;
+					width: 32px;
+					height: 32px;
 					background-size: contain;
 					background-repeat: no-repeat;
 					background-position: center;
@@ -40,8 +40,6 @@
 		}
 	}
 }
-
-
 
 /*--- BRAK PUNKTATORÓW ---*/
 
@@ -62,6 +60,55 @@
 					content: none;
 					display: none;
 				}
+			}
+		}
+	}
+}
+
+/*--- WE HELP ---*/
+
+.b-content.we-help {
+	margin-top: 0 !important;
+
+	.__col {
+		align-items: center;
+	}
+
+	.__content {
+		order: 2;
+	}
+
+	.__img {
+		order: 1;
+		margin-left: 0;
+		width: 100%;
+
+		img {
+			height: auto;
+			object-fit: cover;
+			aspect-ratio: 4/3;
+		}
+	}
+
+	/* Desktop (od 1024px) */
+	@media (min-width: 1024px) {
+		margin-top: -80px !important;
+
+		.__col {
+			align-items: end;
+		}
+
+		.__content {
+			order: 1;
+		}
+
+		.__img {
+			order: 2;
+			margin-left: auto;
+			width: 72%;
+
+			img {
+				aspect-ratio: 9/14;
 			}
 		}
 	}

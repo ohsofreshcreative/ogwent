@@ -1,0 +1,37 @@
+.glass-effect {
+    --glass-border-radius: 1rem;
+    position: relative;
+    border-radius: var(--glass-border-radius);
+}
+
+.glass-effect__bend,
+.glass-effect__face,
+.glass-effect__edge {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: var(--glass-border-radius);
+}
+
+.glass-effect__bend {
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    filter: url(#glass-blur);
+    z-index: 1;
+}
+
+.glass-effect__face {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 2;
+}
+
+.glass-effect__edge {
+    box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.5);
+    z-index: 3;
+}
+
+.glass-effect__content {
+    position: relative;
+    z-index: 4;
+}

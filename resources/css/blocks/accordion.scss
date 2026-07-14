@@ -18,7 +18,7 @@
 	}
 
 	.accordion-label {
-		padding: 16px 16px;
+		padding: 24px;
 		margin-bottom: 0px !important;
 		cursor: pointer;
 		color: var(--body);
@@ -27,6 +27,11 @@
 			transition: transform 0.3s ease-in-out;
 		}
 	}
+
+	.__toggle-btn {
+		transition: background-color 0.2s ease, transform 0.2s ease;
+	}
+	
 
 	.accordion-label:hover {}
 
@@ -64,9 +69,18 @@
 	input:checked {
 		border: 1px solid var(--primary);
 	}
+	
+	input:checked+.accordion-label {
+		.__toggle-btn {}
 
-	input:checked+.accordion-label .__arrow {
-		transform: rotate(180deg);
+		.__line-vertical {
+			transform: rotate(90deg);
+			opacity: 0;
+		}
+
+		.__line-horizontal {
+			transform: rotate(180deg);
+		}
 	}
 
 	.accordion:has(input:checked) {

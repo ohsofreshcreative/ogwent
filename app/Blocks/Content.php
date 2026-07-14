@@ -17,7 +17,7 @@ class Content extends Block
 	public $mode = 'edit';
 public $supports = [
     'align' => false,
-    'mode' => false,
+    'mode' => true,
     'jsx' => true,
     'anchor' => true,
     'customClassName' => true,
@@ -46,6 +46,7 @@ public $supports = [
 				'return_format' => 'array',
 				'preview_size' => 'thumbnail',
 			])
+            ->addText('title', ['label' => 'Tytuł'])
 			->addText('header', ['label' => 'Nagłówek'])
 			->addWysiwyg('text', [
 				'label' => 'Treść',
@@ -54,11 +55,11 @@ public $supports = [
 				'media_upload' => true,
 			])
 			->addLink('button1', [
-				'label' => 'Przycisk #1',
+				'label' => 'Przycisk #1 (niebieski)',
 				'return_format' => 'array',
 			])
 			->addLink('button2', [
-				'label' => 'Przycisk #2',
+				'label' => 'Przycisk #2 (seledynowy)',
 				'return_format' => 'array',
 			])
 			->endGroup()

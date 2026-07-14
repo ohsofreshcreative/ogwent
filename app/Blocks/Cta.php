@@ -17,7 +17,7 @@ class Cta extends Block
 	public $mode = 'edit';
 	public $supports = [
 		'align' => false,
-		'mode' => false,
+		'mode' => true,
 		'jsx' => true,
 	];
 
@@ -44,7 +44,8 @@ class Cta extends Block
 				'return_format' => 'array', // lub 'url', lub 'id'
 				'preview_size' => 'medium',
 			])
-			->addText('header', ['label' => 'Tytuł'])
+            ->addText('title', ['label' => 'Tytuł'])
+			->addText('header', ['label' => 'Nagłówek'])
 			->addWysiwyg('txt', [
 				'label' => 'Treść',
 				'tabs' => 'all', // 'visual', 'text', 'all'
@@ -53,11 +54,11 @@ class Cta extends Block
 				'rows' => 4,
 			])
 			->addLink('button1', [
-				'label' => 'Przycisk',
+				'label' => 'Przycisk #1 (seledynowy)',
 				'return_format' => 'array',
 			])
 			->addLink('button2', [
-				'label' => 'Przycisk',
+				'label' => 'Przycisk #2 (biały)',
 				'return_format' => 'array',
 			])
 			->endGroup()

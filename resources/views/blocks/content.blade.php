@@ -11,13 +11,23 @@
 
 	<div class="__wrapper c-main relative">
 		<div class="__col grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-20">
+
 			@if (!empty($g_content['image']))
-			<div data-gsap-element="img" class="__img h-full order1">
-				<img class="" src="{{ $g_content['image']['url'] }}" alt="{{ $g_content['image']['alt'] ?? '' }}">
-			</div>
+			<figure data-gsap-element="img" class="__img h-full order-1 overflow-hidden">
+				<picture>
+					<img
+						class="w-full h-full min-h-130 object-cover"
+						src="{{ $g_content['image']['url'] }}"
+						alt="{{ $g_content['image']['alt'] }}"
+						loading="lazy" />
+				</picture>
+			</figure>
 			@endif
 
-			<div class="__content order2">
+			<div class="__content order-2">
+				@if (!empty($g_content['title']))
+				<p data-gsap-element="title" class="__title m-title">{{ $g_content['title'] }}</p>
+				@endif
 				<h2 data-gsap-element="header" class="text-h4">{{ $g_content['header'] }}</h2>
 
 				<div data-gsap-element="txt" class="__txt mt-4">

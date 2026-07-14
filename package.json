@@ -16,24 +16,26 @@
     "translate:mo": "wp i18n make-mo ./resources/lang ./resources/lang"
   },
   "devDependencies": {
-    "@roots/vite-plugin": "^2.1.0",
+    "@roots/vite-plugin": "^2.2.0",
     "@tailwindcss/forms": "^0.5.11",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.3",
     "@wordpress/dependency-extraction-webpack-plugin": "^6.36.0",
     "autoprefixer": "^10.5.0",
     "laravel-vite-plugin": "^3.1.0",
-    "postcss": "^8.5.14",
-    "tailwindcss": "^4.3.0",
-    "vite": "^8.0.13"
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.1",
+    "vite": "^8.0.16"
   },
   "dependencies": {
     "alpinejs": "^3.14.9",
     "baguettebox.js": "^1.13.0",
     "gsap": "^3.13.0",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
+    "liquid-gl": "^1.0.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "swiper": "^11.2.6"

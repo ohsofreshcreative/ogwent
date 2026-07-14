@@ -11,7 +11,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     server: {
       host: 'sage.local',
-      port: 5981,
+      port: 5983,
       strictPort: true,
       cors: true,
       proxy: {
@@ -23,7 +23,7 @@ export default defineConfig(({ command, mode }) => {
       hmr: {
         protocol: 'ws',
         host: 'sage.local',
-        port: 5981,
+        port: 5983,
       },
     },
 
