@@ -542,3 +542,25 @@ function custom_variation_price_format($price, $product) {
 
     return $price;
 }
+
+
+/*--- BEZPIECZNIK DLA WOOCOMMERCE HPOS (ZAPOBIEGANIE BŁĘDOM NA NOWYCH/OSIEROCONYCH ZAMÓWIENIACH) ---*/
+
+add_filter('map_meta_cap', function ($caps, $cap, $user_id, $args) {
+    if (in_array($cap, ['delete_post', 'delete_shop_order', 'edit_post', 'edit_shop_order'], true)) {
+        $id = !empty($args[0]) ? (int) $args[0] : 0;
+        
+        // Blokada sprawdzania uprawnień dla ID 0 (nowo tworzone zamówienia)
+        if ($id === 0) {
+            return ['do_not_allow'];
+        }
+
+        // Dodatkowe zabezpieczenie dla trybu HPOS - jeśli zamówienie fizycznie nie istnieje w bazie (np. osierocone rekordy)
+        if (class_exists(\Automattic\WooCommerce\Utilities\OrderUtil::class) && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled()) {
+            if (function_exists('wc_get_order') && !wc_get_order($id)) {
+                return ['do_not_allow'];
+            }
+        }
+    }
+    return $caps;
+}, 10, 4);
