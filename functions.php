@@ -104,3 +104,23 @@ collect(['setup', 'filters', 'post-types'])
 add_filter('sage/acf-composer/fields', fn() => [
 	App\Blocks\ExampleBlock::class,
 ]);
+
+
+
+// TYMCZASOWY FIX UPRAWNIEŃ - Usuń go po naprawieniu problemu!
+add_action('init', function () {
+    if (isset($_GET['fix_my_roles'])) {
+        require_once(ABSPATH . 'wp-admin/includes/schema.php');
+        
+        // 1. Odbudowuje domyślne role i uprawnienia WP w bazie danych
+        populate_roles();
+        
+        // 2. Jeśli jesteś zalogowany, upewnia się, że masz rolę administratora
+        $user = wp_get_current_user();
+        if ($user && $user->exists()) {
+            $user->add_role('administrator');
+        }
+        
+        wp_die('Uprawnienia bazy danych zostały pomyślnie odbudowane! Spróbuj teraz wejść w Strony.');
+    }
+});
