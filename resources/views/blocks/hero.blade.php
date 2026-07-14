@@ -37,21 +37,21 @@
 
     <div class="absolute inset-0 z-10 bg-primary/56"></div>
 
-     <div 
+        <!-- ABSOLUTNY GEOMETRYCZNY ELEMENT LIQUID GLASS (PEŁNA WYSOKOŚĆ / BEZ MARGINESÓW) -->
+    <div 
         style="
             position: absolute !important;
             clip-path: polygon(100% 100%, 13.05% 100%, 54.95% 70.09%, 0% 1.17%, 0% 0%, 100% 0%);
             -webkit-clip-path: polygon(100% 100%, 13.05% 100%, 54.95% 70.09%, 0% 1.17%, 0% 0%, 100% 0%);
-            backdrop-filter: blur(28px) saturate(140%);
-            -webkit-backdrop-filter: blur(28px) saturate(140%);
-            background-color: rgba(255, 255, 255, 0.08);
         "
-        class="absolute inset-y-0 right-0 h-full w-[45%] lg:w-[40%] z-20 hidden md:block pointer-events-none">
+        class="liquid-glass absolute inset-y-0 right-0 h-full w-[45%] lg:w-[40%] z-20 hidden md:block pointer-events-none">
         
-        <!-- Wektorowe, lśniące białe obramowanie dopasowane do krawędzi -->
-        <svg class="absolute inset-0 w-full h-full z-10" viewBox="0 0 566 715" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Wektorowa biała ramka nachodząca idealnie na boki wyciętego shaderu -->
+        <svg class="absolute inset-0 w-full h-full z-30" viewBox="0 0 566 715" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M565.929 715.001H73.8691L311.003 501.122L0 8.39648V0L565.929 0V715.001Z" stroke="rgba(255, 255, 255, 0.25)" stroke-width="2.5" />
         </svg>
+        
+        <div class="liquid-glass__content h-full"></div>
     </div>
 
     <div class="__wrapper c-main grid grid-cols-1 md:grid-cols-2 items-center gap-10">

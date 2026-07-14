@@ -11,7 +11,7 @@ import initLiquidGlass from './components/liquid-glass';
 import.meta.glob(['../images/**', '../fonts/**']);
 
 // Twoje niestandardowe moduły JS
-import './menubar.js';
+/* import './menubar.js'; */
 import './footer-accordion.js';
 import './glass-webgl.js';
 import './cart-drawer.js';
@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 import './blocks/catalogues.js';
 
-/* window.addEventListener('load', () => {
+window.addEventListener('load', () => {
     initLiquidGlass();
-}); */
+});
 
 
 /*--- NOT USED ---*/
