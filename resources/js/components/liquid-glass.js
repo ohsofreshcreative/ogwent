@@ -9,7 +9,6 @@ import liquidGL from 'liquid-gl';
   window.__html2canvasColorPatched__ = true;
 
   try {
-    // 1. Patchujemy pobieranie zmiennych przez getPropertyValue()
     const originalGetPropertyValue = CSSStyleDeclaration.prototype.getPropertyValue;
     CSSStyleDeclaration.prototype.getPropertyValue = function (propertyName) {
       const val = originalGetPropertyValue.call(this, propertyName);
@@ -19,7 +18,6 @@ import liquidGL from 'liquid-gl';
       return val;
     };
 
-    // 2. Patchujemy getComputedStyle() za pomocą Proxy, aby złapać bezpośrednie zapytania .style.color itp.
     const originalGetComputedStyle = window.getComputedStyle;
     window.getComputedStyle = function (el, pseudoElt) {
       const style = originalGetComputedStyle.call(this, el, pseudoElt);
@@ -61,43 +59,41 @@ export default function initLiquidGlass() {
   const hasHero = document.querySelector('.b-hero');
   const snapshotTarget = hasHero ? '.b-hero' : 'body';
 
+  // Kasujemy flagę inicjalizacyjną przy nowym uruchomieniu
+  window.__liquidGLActive__ = false;
+
   const glassEffect = liquidGL({
     target: '.liquid-glass',
     snapshot: snapshotTarget,
 
     resolution: 1.5, 
-    refraction: 0.04, // Eleganckie zagięcie tła imitujące grubą soczewkę szklaną
+    refraction: 0.12, // Wyraźne załamanie światła jak w grubej soczewce szklanej
 
-    bevelDepth: 0.09, // Zwiększone fazowanie krawędzi
-    bevelWidth: 0.18,
+    bevelDepth: 0.12, // Głębokie zagięcie szklanych krawędzi
+    bevelWidth: 0.22, // Chromowana flara na krawędzi szklanej
 
-    frost: 1.0, // Elegancki poziom zamglenia
+    frost: 0.85, // Elegancki poziom zamglenia tła
 
     shadow: true,
-    specular: true, // Lśniący odblask pod kątem światła
+    specular: true, // Lśnienie pod kątem światła
 
     reveal: 'fade',
 
     tilt: true,
-    tiltFactor: 6, // Trójwymiarowe nachylenie w pozycjach kursora
+    tiltFactor: 12, // Nachylenie pod kątem przy ruchach myszki
 
-    magnify: 1,
+    magnify: 1.05, // Delikatnie powiększa to co z tyłu, dając niesamowity efekt rzeczywistej lupy
 
     on: {
       init(instance) {
         console.log('Liquid Glass WebGL uruchomiony pomyślnie!', instance);
-        
-        // Zmiana statusu na zielony "WebGL Active"
-        const statusEl = document.getElementById('glass-status');
-        if (statusEl) {
-          statusEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> WebGL Active';
-          statusEl.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300';
-        }
+        // Oznaczamy WebGL jako udanie załadowany
+        window.__liquidGLActive__ = true;
       },
     },
   });
 
-  // Rejestrujemy nasłuchiwanie na przesuwanie kafelka
+  // Rejestrujemy nasłuchiwanie na ruchy myszką / odświeżanie
   window.addEventListener('liquid-refresh', () => {
     if (Array.isArray(glassEffect)) {
       glassEffect.forEach(inst => {
@@ -109,34 +105,28 @@ export default function initLiquidGlass() {
       glassEffect.updateMetrics();
     }
     
-    // Zmuszamy renderer do natychmiastowego odświeżenia klatki WebGL
     const renderer = window.__liquidGLRenderer__;
     if (renderer && typeof renderer.render === 'function') {
       renderer.render();
     }
   });
 
-  // Inteligentny Fallback w razie jakichkolwiek innych niespodziewanych problemów
+  // Inteligentny Fallback po 4 sekundach (tylko jeżeli WebGL faktycznie zawiódł)
   setTimeout(() => {
-    targets.forEach((el) => {
-      const computedStyle = window.getComputedStyle(el);
-      // Jeśli WebGL nie zastąpił opacity, przywracamy styl CSS
-      if (computedStyle.opacity === '0' || el.style.opacity === '0') {
-        console.warn('Fallback: Przywracanie stylów CSS na wypadek problemów z WebGL.');
-        el.style.opacity = '1';
-        el.style.pointerEvents = 'auto';
-        el.style.background = 'rgb(255 255 255 / 12%)';
-        el.style.backdropFilter = 'blur(18px) saturate(140%)';
-        el.style.webkitBackdropFilter = 'blur(18px) saturate(140%)';
+    // Jeżeli WebGL został zainicjalizowany pomyślnie, nie robimy absolutnie nic
+    if (window.__liquidGLActive__) {
+      return;
+    }
 
-        const statusEl = document.getElementById('glass-status');
-        if (statusEl) {
-          statusEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> CSS Fallback';
-          statusEl.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300';
-        }
-      }
+    targets.forEach((el) => {
+      console.warn('Fallback: Wykryto błąd ładowania WebGL, przywracanie stylu CSS.');
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+      el.style.background = 'rgb(255 255 255 / 12%)';
+      el.style.backdropFilter = 'blur(18px) saturate(140%)';
+      el.style.webkitBackdropFilter = 'blur(18px) saturate(140%)';
     });
-  }, 1500);
+  }, 4000);
 
   return glassEffect;
 }

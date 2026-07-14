@@ -51,8 +51,9 @@ $sectionClass .= ' ' . $background;
 		</div>
 
 		{{-- Slider --}}
-		<div class="relative overflow-x-hidden overflow-y-visible">
-			<div class="swiper slider-carousel h-full !pb-6">
+		        {{-- Slider --}}
+        <div class="relative overflow-x-hidden overflow-y-visible min-w-0 flex-1">
+            <div class="swiper slider-carousel h-full !pb-6">
 				<div class="swiper-wrapper ml-6">
 					@foreach($carousel as $product)
 					@php $p = wc_get_product($product->ID); @endphp
