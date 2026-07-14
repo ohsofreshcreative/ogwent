@@ -36,7 +36,7 @@
     "src": "editor.deps.json"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DF2tw4TQ.css",
+    "file": "assets/app-yZW52kF3.css",
     "name": "app",
     "names": [
       "app.css"
@@ -54,7 +54,7 @@
     ]
   },
   "resources/css/editor.css": {
-    "file": "assets/editor-DiXwQX8Q.css",
+    "file": "assets/editor-C4slYplj.css",
     "name": "editor",
     "names": [
       "editor.css"
@@ -91,7 +91,7 @@
     "src": "resources/images/top-green.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-BRgVBDDf.js",
+    "file": "assets/app-BVXJpkb8.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,

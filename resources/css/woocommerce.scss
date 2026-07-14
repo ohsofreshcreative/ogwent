@@ -78,6 +78,14 @@ bdi span {
 
 /*--- !BREADCRUMBS ---*/
 
+.b-herosub #breadcrumbs {
+	color: var(--color-gray-300) !important;
+
+	a {
+		color: #FFF;
+	}
+}
+
 .woocommerce-breadcrumb,
 #breadcrumbs {
 	text-align: left;
@@ -89,6 +97,7 @@ bdi span {
 	gap: 8px;
 	flex-wrap: nowrap;
 	margin-bottom: 24px !important;
+	white-space: nowrap !important;
 
 	a {
 		color: var(--color-primary);
@@ -99,6 +108,12 @@ bdi span {
 	a:hover {
 		color: var(--color-primary-300);
 		transition: color 0.2s ease-in-out;
+	}
+
+	span {
+		display: flex !important;
+		white-space: nowrap !important;
+		gap: 8px;
 	}
 
 	.__separator {
@@ -116,6 +131,7 @@ bdi span {
 		span {
 			display: inline !important;
 			white-space: nowrap !important;
+			margin: 0 4px;
 		}
 	}
 }
@@ -188,6 +204,14 @@ input[type="number"] {
 .woocommerce div.product .woocommerce-variation-add-to-cart .single_add_to_cart_button {
 	margin: 0 !important;
 	float: none !important;
+}
+
+.single-product .price {
+	margin-top: 40px;
+}
+
+.single-product form.cart {
+	margin-top: 24px;
 }
 
 /*--- !PAGINATION ---*/

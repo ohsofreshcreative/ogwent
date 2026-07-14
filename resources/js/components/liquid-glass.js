@@ -5,93 +5,114 @@ import liquidGL from 'liquid-gl';
  * Podmienia wszystkie niezrozumiałe dla biblioteki formaty oklab/oklch na bezpieczne rgba(0,0,0,0).
  */
 (function patchHtml2CanvasColors() {
-  if (typeof window === 'undefined' || window.__html2canvasColorPatched__) return;
-  window.__html2canvasColorPatched__ = true;
+	if (typeof window === 'undefined' || window.__html2canvasColorPatched__) return;
+	window.__html2canvasColorPatched__ = true;
 
-  try {
-    const originalGetPropertyValue = CSSStyleDeclaration.prototype.getPropertyValue;
-    CSSStyleDeclaration.prototype.getPropertyValue = function (propertyName) {
-      const val = originalGetPropertyValue.call(this, propertyName);
-      if (typeof val === 'string' && (val.includes('oklab') || val.includes('oklch'))) {
-        return val.replace(/okl(ab|ch)\([^)]+\)/g, 'rgba(0,0,0,0)');
-      }
-      return val;
-    };
+	try {
+		const originalGetPropertyValue = CSSStyleDeclaration.prototype.getPropertyValue;
+		CSSStyleDeclaration.prototype.getPropertyValue = function (propertyName) {
+			const val = originalGetPropertyValue.call(this, propertyName);
+			if (typeof val === 'string' && (val.includes('oklab') || val.includes('oklch'))) {
+				return val.replace(/okl(ab|ch)\([^)]+\)/g, 'rgba(0,0,0,0)');
+			}
+			return val;
+		};
 
-    const originalGetComputedStyle = window.getComputedStyle;
-    window.getComputedStyle = function (el, pseudoElt) {
-      const style = originalGetComputedStyle.call(this, el, pseudoElt);
-      return new Proxy(style, {
-        get(target, prop) {
-          if (prop === 'getPropertyValue') {
-            return function (propertyName) {
-              const val = target.getPropertyValue(propertyName);
-              if (typeof val === 'string' && (val.includes('oklab') || val.includes('oklch'))) {
-                return val.replace(/okl(ab|ch)\([^)]+\)/g, 'rgba(0,0,0,0)');
-              }
-              return val;
-            };
-          }
-          const val = Reflect.get(target, prop);
-          if (typeof val === 'string' && (val.includes('oklab') || val.includes('oklch'))) {
-            return val.replace(/okl(ab|ch)\([^)]+\)/g, 'rgba(0,0,0,0)');
-          }
-          if (typeof val === 'function') {
-            return val.bind(target);
-          }
-          return val;
-        }
-      });
-    };
-  } catch (e) {
-    console.warn('Nie udało się zaaplikować patcha oklab/oklch dla html2canvas', e);
-  }
+		const originalGetComputedStyle = window.getComputedStyle;
+		window.getComputedStyle = function (el, pseudoElt) {
+			const style = originalGetComputedStyle.call(this, el, pseudoElt);
+			return new Proxy(style, {
+				get(target, prop) {
+					if (prop === 'getPropertyValue') {
+						return function (propertyName) {
+							const val = target.getPropertyValue(propertyName);
+							if (typeof val === 'string' && (val.includes('oklab') || val.includes('oklch'))) {
+								return val.replace(/okl(ab|ch)\([^)]+\)/g, 'rgba(0,0,0,0)');
+							}
+							return val;
+						};
+					}
+					const val = Reflect.get(target, prop);
+					if (typeof val === 'string' && (val.includes('oklab') || val.includes('oklch'))) {
+						return val.replace(/okl(ab|ch)\([^)]+\)/g, 'rgba(0,0,0,0)');
+					}
+					if (typeof val === 'function') {
+						return val.bind(target);
+					}
+					return val;
+				}
+			});
+		};
+	} catch (e) {
+		console.warn('Nie udało się zaaplikować patcha oklab/oklch dla html2canvas', e);
+	}
 })();
 
 export default function initLiquidGlass() {
-  const targets = document.querySelectorAll('.liquid-glass');
+	const targets = document.querySelectorAll('.liquid-glass');
 
-  if (!targets.length) {
-    return;
-  }
+	if (!targets.length) {
+		return;
+	}
 
-  // Cel zrzutu tła - sekcja hero dla znakomitej prędkości działania
-  const hasHero = document.querySelector('.b-hero');
-  const snapshotTarget = hasHero ? '.b-hero' : 'body';
+	// Cel zrzutu tła - sekcja hero dla znakomitej prędkości działania
+	const hasHero = document.querySelector('.b-hero');
+	const snapshotTarget = hasHero ? '.b-hero' : 'body';
 
-  // Kasujemy flagę inicjalizacyjną przy nowym uruchomieniu
-  window.__liquidGLActive__ = false;
+	// Kasujemy flagę inicjalizacyjną przy nowym uruchomieniu
+	window.__liquidGLActive__ = false;
 
-  const glassEffect = liquidGL({
+	 const glassEffect = liquidGL({
     target: '.liquid-glass',
     snapshot: snapshotTarget,
 
     resolution: 1.5, 
-    refraction: 0.12, // Wyraźne załamanie światła jak w grubej soczewce szklanej
+    refraction: 0.12, 
 
-    bevelDepth: 0.12, // Głębokie zagięcie szklanych krawędzi
-    bevelWidth: 0.22, // Chromowana flara na krawędzi szklanej
+    bevelDepth: 0.12, 
+    bevelWidth: 0.22, 
 
-    frost: 0.85, // Elegancki poziom zamglenia tła
+    frost: 0.85, 
 
     shadow: true,
-    specular: true, // Lśnienie pod kątem światła
+    specular: true, 
 
     reveal: 'fade',
 
-    tilt: true,
-    tiltFactor: 12, // Nachylenie pod kątem przy ruchach myszki
+    tilt: false, // Świadomie wyłączony tilt fizyczny
+    tiltFactor: 0, 
 
-    magnify: 1.05, // Delikatnie powiększa to co z tyłu, dając niesamowity efekt rzeczywistej lupy
+    magnify: 1.05, 
 
     on: {
       init(instance) {
         console.log('Liquid Glass WebGL uruchomiony pomyślnie!', instance);
-        // Oznaczamy WebGL jako udanie załadowany
         window.__liquidGLActive__ = true;
       },
     },
   });
+
+  // GWARANT EMULACJI KSZTAŁTU (HAK):
+  // Zmuszamy bibliotekę do stworzenia i utrzymywania lokalnych płócien pomocniczych
+  // (Mirror Canvases), które idealnie dopasują się do wymiarów kafelka i pozwolą na clip-path!
+  setTimeout(() => {
+    const applyMirror = (lens) => {
+      if (lens && typeof lens._createMirrorCanvas === 'function') {
+        lens._createMirrorCanvas();
+        // Usuwamy domyślne prostokątne zaokrąglenie, aby clip-path przejął pełną kontrolę
+        if (lens._mirror) {
+          lens._mirror.style.clipPath = 'url(#glass-clip)';
+          lens._mirror.style.webkitClipPath = 'url(#glass-clip)';
+        }
+      }
+    };
+
+    if (Array.isArray(glassEffect)) {
+      glassEffect.forEach(applyMirror);
+    } else {
+      applyMirror(glassEffect);
+    }
+  }, 100);
 
   // Rejestrujemy nasłuchiwanie na ruchy myszką / odświeżanie
   window.addEventListener('liquid-refresh', () => {
@@ -113,7 +134,6 @@ export default function initLiquidGlass() {
 
   // Inteligentny Fallback po 4 sekundach (tylko jeżeli WebGL faktycznie zawiódł)
   setTimeout(() => {
-    // Jeżeli WebGL został zainicjalizowany pomyślnie, nie robimy absolutnie nic
     if (window.__liquidGLActive__) {
       return;
     }

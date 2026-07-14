@@ -62,19 +62,20 @@
         @endforeach
     </div>
 
-    <!-- Podsumowanie wartości i Przyciski dolne -->
+      <!-- Podsumowanie wartości i Przyciski dolne -->
     <div class="border-t border-gray-100 p-6 bg-gray-50 space-y-4">
         <div class="flex justify-between items-center text-sm font-medium">
             <span class="text-gray-500 text-base">Wartość koszyka:</span>
             <span class="font-extrabold text-xl text-primary">{!! WC()->cart->get_cart_subtotal() !!}</span>
         </div>
         <div class="grid grid-cols-2 gap-4">
-            <a href="{{ wc_get_cart_url() }}" class="btn !bg-white border-2 border-gray-200 text-primary hover:bg-gray-100 hover:border-gray-300 transition-colors text-center font-bold !py-3 rounded-lg text-sm shadow-xs flex items-center justify-center w-full">
-                Do koszyka
+            <!-- Poprawiono ważność klasy (text-primary!) oraz tekst na 'Koszyk' -->
+            <a href="{{ wc_get_cart_url() }}" class="bg-white! border-2 border-gray-200 text-primary! hover:bg-gray-100 hover:border-gray-300 transition-colors text-center font-bold py-3 rounded-lg text-sm shadow-xs flex items-center justify-center w-full">
+               Koszyk
             </a>
-            <a href="{{ wc_get_checkout_url() }}" class="btn btn-secondary text-center font-bold !py-3 rounded-lg text-sm shadow-xs flex items-center justify-center w-full">
-                Do zamówienia
+            <a href="{{ wc_get_checkout_url() }}" class="btn btn-secondary text-center font-bold !py-3 !rounded-lg text-sm shadow-xs flex items-center justify-center w-full">
+                Zamówienia
             </a>
         </div>
     </div>
-@endif
+@endif	

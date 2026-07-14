@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 import './blocks/catalogues.js';
 
-window.addEventListener('load', () => {
+/* window.addEventListener('load', () => {
     initLiquidGlass();
-});
+}); */
 
 
 /*--- NOT USED ---*/
